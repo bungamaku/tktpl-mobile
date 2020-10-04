@@ -29,8 +29,12 @@ class FirstFragment : Fragment() {
         view.findViewById<Button>(R.id.start_button).setOnClickListener {
             val showValueTextView = view.findViewById<TextView>(R.id.textView_input)
             val currentValue = showValueTextView.text.toString().toInt()
-            val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(currentValue)
-            findNavController().navigate(action)
+            if (currentValue == 0) {
+                Toast.makeText(activity?.applicationContext, "Countdown can't start from 0!", Toast.LENGTH_SHORT).show()
+            } else {
+                val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(currentValue)
+                findNavController().navigate(action)
+            }
         }
 
         view.findViewById<Button>(R.id.plus_button).setOnClickListener {
