@@ -10,6 +10,8 @@ import android.view.MenuItem
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
+    private val delayExit = 2000
+    private var backPressedTimer: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,16 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onBackPressed() {
+        if (backPressedTimer + delayExit > System.currentTimeMillis()) {
+            super.onBackPressed()
+        } else {
+            Toast.makeText(this, "Press Back once again to exit!",
+                Toast.LENGTH_SHORT).show()
+        }
+        backPressedTimer = System.currentTimeMillis()
     }
 
     override fun onStart() {
