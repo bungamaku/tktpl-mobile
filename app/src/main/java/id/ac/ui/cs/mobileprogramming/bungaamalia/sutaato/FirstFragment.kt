@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 
 /**
@@ -24,8 +26,43 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.button_first).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        view.findViewById<Button>(R.id.start_button).setOnClickListener {
+            val showValueTextView = view.findViewById<TextView>(R.id.textView_input)
+            val currentValue = showValueTextView.text.toString().toInt()
+            if (currentValue == 0) {
+                Toast.makeText(activity?.applicationContext, "Countdown can't start from 0!", Toast.LENGTH_SHORT).show()
+            } else {
+                val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(currentValue)
+                findNavController().navigate(action)
+            }
         }
+
+        view.findViewById<Button>(R.id.plus_button).setOnClickListener {
+            plusValue(view)
+        }
+
+        view.findViewById<Button>(R.id.minus_button).setOnClickListener {
+            minusValue(view)
+        }
+    }
+
+    private fun plusValue(view: View) {
+        val showValueTextView = view.findViewById<TextView>(R.id.textView_input)
+        val valueString = showValueTextView.text.toString()
+        var value = valueString.toInt()
+        value++
+        showValueTextView.text = value.toString()
+    }
+
+    private fun minusValue(view: View) {
+        val showValueTextView = view.findViewById<TextView>(R.id.textView_input)
+        val valueString = showValueTextView.text.toString()
+        var value = valueString.toInt()
+        if (value < 1) {
+            Toast.makeText(activity?.applicationContext, "Seconds can't be negative!", Toast.LENGTH_SHORT).show()
+        } else {
+            value--
+        }
+        showValueTextView.text = value.toString()
     }
 }
