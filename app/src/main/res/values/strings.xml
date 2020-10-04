@@ -7,9 +7,9 @@
     <string name="previous">Previous</string>
 
     <string name="main_value">0</string>
-    <string name="random_heading">Here is a random number between 0 and %d.</string>
-    <string name="minus_button_text">Minus</string>
-    <string name="plus_button_text">Plus</string>
-    <string name="random_button_text">Random</string>
-    <string name="random_text">R</string>
+    <string name="minus_button_text">−</string>
+    <string name="plus_button_text">+</string>
+    <string name="start_button_text">Start!</string>
+    <string name="seconds_text">R</string>
+    <string name="title_text">Countdown in Sec</string>
 </resources>

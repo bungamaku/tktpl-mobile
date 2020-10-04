@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 
 /**
@@ -25,8 +26,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.random_button).setOnClickListener {
-            val showValueTextView = view.findViewById<TextView>(R.id.textview_first)
+        view.findViewById<Button>(R.id.start_button).setOnClickListener {
+            val showValueTextView = view.findViewById<TextView>(R.id.textView_input)
             val currentValue = showValueTextView.text.toString().toInt()
             val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(currentValue)
             findNavController().navigate(action)
@@ -42,7 +43,7 @@ class FirstFragment : Fragment() {
     }
 
     private fun plusValue(view: View) {
-        val showValueTextView = view.findViewById<TextView>(R.id.textview_first)
+        val showValueTextView = view.findViewById<TextView>(R.id.textView_input)
         val valueString = showValueTextView.text.toString()
         var value = valueString.toInt()
         value++
@@ -50,10 +51,14 @@ class FirstFragment : Fragment() {
     }
 
     private fun minusValue(view: View) {
-        val showValueTextView = view.findViewById<TextView>(R.id.textview_first)
+        val showValueTextView = view.findViewById<TextView>(R.id.textView_input)
         val valueString = showValueTextView.text.toString()
         var value = valueString.toInt()
-        value--
+        if (value < 1) {
+            Toast.makeText(activity?.applicationContext, "Seconds can't be negative!", Toast.LENGTH_SHORT).show()
+        } else {
+            value--
+        }
         showValueTextView.text = value.toString()
     }
 }
