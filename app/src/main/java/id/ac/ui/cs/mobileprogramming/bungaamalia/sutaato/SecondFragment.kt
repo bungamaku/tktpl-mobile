@@ -45,7 +45,7 @@ class SecondFragment : Fragment() {
     }
 
     private fun startCountdown(seconds: Long) {
-        val countdownTimer = object : CountDownTimer(seconds, 1000) {
+        object : CountDownTimer(seconds, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 countDownOnGoing = true
                 view!!.findViewById<TextView>(R.id.textView_seconds).text = (millisUntilFinished / 1000).toString()
