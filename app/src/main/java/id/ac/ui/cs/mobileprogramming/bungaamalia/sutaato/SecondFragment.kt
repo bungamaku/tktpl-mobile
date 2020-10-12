@@ -39,7 +39,10 @@ class SecondFragment : Fragment() {
             }
         }
 
-        var value = args.randomArg.toLong()
+        var value = args.valueArg.toLong()
+        val titleSecondText = getString(R.string.textview_title_second_text, value)
+        view.findViewById<TextView>(R.id.textView_title_second).text = titleSecondText
+
         value *= 1000
         startCountdown(value)
     }
