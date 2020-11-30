@@ -5,9 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +13,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.Call
+import retrofit2.converter.gson.GsonConverterFactory
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class FirstFragment : Fragment() {
     private lateinit var viewModel: CountdownViewModel
 
@@ -50,6 +49,28 @@ class FirstFragment : Fragment() {
                         wifiNames.joinToString(
                             prefix = "Wi-Fi names: [", postfix = "]", separator = ", ")
                 }
+
+                val RequestbinService = Retrofit.Builder()
+                    .baseUrl("https://d71d79b591d245fdd6ef206f7326ea99.m.pipedream.net")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(RequestbinService::class.java)
+
+                RequestbinService.postWifiNames(wifiNames).enqueue(
+                    object: Callback<Void> {
+                        override fun onFailure(call: Call<Void>, t: Throwable?) {
+                            Toast.makeText(activity?.applicationContext,
+                                "Sending Wi-Fi names failed with error: ".plus(t?.message),
+                                Toast.LENGTH_SHORT).show()
+                        }
+
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            Toast.makeText(activity?.applicationContext,
+                                "Wi-Fi names sent to Requestbin!",
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                )
             }
         }
 
