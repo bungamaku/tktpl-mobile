@@ -13,4 +13,6 @@
     <string name="seconds_text">R</string>
     <string name="title_text">Countdown in Sec</string>
     <string name="textview_title_second_text">Counting down from %d</string>
+    <string name="wifi_button_text">Scan Wi-Fi</string>
+    <string name="wifi_textview_text"></string>
 </resources>
