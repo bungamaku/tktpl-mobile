@@ -24,6 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class FirstFragment : Fragment() {
     private lateinit var viewModel: CountdownViewModel
 
+    private external fun nativePlus(currValue: Int): Int
+    private external fun nativeMinus(currValue: Int): Int
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -112,16 +115,24 @@ class FirstFragment : Fragment() {
 
     private fun plusValue(view: View) {
         val showValueTextView = view.findViewById<TextView>(R.id.textView_input)
-        showValueTextView.text = viewModel.plusValue()
+        viewModel.currentValue = nativePlus(viewModel.currentValue)
+        showValueTextView.text = viewModel.currentValue.toString()
     }
 
     private fun minusValue(view: View) {
         val showValueTextView = view.findViewById<TextView>(R.id.textView_input)
-        var value = viewModel.currentValue
+        val value = viewModel.currentValue
         if (value < 1) {
             Toast.makeText(activity?.applicationContext, "Seconds can't be negative!", Toast.LENGTH_SHORT).show()
         } else {
-            showValueTextView.text = viewModel.minusValue()
+            viewModel.currentValue = nativeMinus(viewModel.currentValue)
+            showValueTextView.text = viewModel.currentValue.toString()
+        }
+    }
+
+    companion object {
+        init {
+            System.loadLibrary("native_countdown")
         }
     }
 }
